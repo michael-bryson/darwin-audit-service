@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2022 Micro Focus or one of its affiliates.
+
+    The only warranties for products and services of Micro Focus and its
+    affiliates and licensors ("Micro Focus") are set forth in the express
+    warranty statements accompanying such products and services. Nothing
+    herein should be construed as constituting an additional warranty.
+    Micro Focus shall not be liable for technical or editorial errors or
+    omissions contained herein. The information contained herein is subject
+    to change without notice.
+
+    Contains Confidential Information. Except as specifically indicated
+    otherwise, a valid license is required for possession, use or copying.
+    Consistent with FAR 12.211 and 12.212, Commercial Computer Software,
+    Computer Software Documentation, and Technical Data for Commercial
+    Items are licensed to the U.S. Government under vendor's standard
+    commercial license.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.microfocus.darwin</groupId>
+    <artifactId>darwin-audit-service</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Darwin Audit Service</name>
+    <description>Darwin-specific version of the Audit Service.</description>
+    <url>https://github.houston.softwaregrp.net/Verity/darwin-audit-service</url>
+
+    <inceptionYear>2022</inceptionYear>
+
+    <parent>
+        <groupId>com.microfocus.caf</groupId>
+        <artifactId>caf-parent</artifactId>
+        <version>4.0.0-661</version>
+    </parent>
+
+    <properties>
+        <copyrightYear>2022</copyrightYear>
+        <copyrightNotice>Copyright ${copyrightYear} Micro Focus or one of its affiliates.</copyrightNotice>
+        <DOCKER_HUB_PUBLIC>${dockerHubPublic}</DOCKER_HUB_PUBLIC>
+        <enforceCorrectDependencies>true</enforceCorrectDependencies>
+        <maven.install.skip>true</maven.install.skip>
+        <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+        <webserviceWarName>caf-audit-service</webserviceWarName>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-service</artifactId>
+            <type>war</type>
+            <version>3.9.1-884</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-service-admin</artifactId>
+            <type>war</type>
+            <version>3.9.1-884</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-binding-elasticsearch</artifactId>
+            <version>3.9.1-884</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>1.3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opensearch.client</groupId>
+            <artifactId>opensearch-java</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-service-ui</artifactId>
+            <type>war</type>
+            <version>3.9.1-884</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        
+        <!-- Testing dependencies -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>2.12.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-to-slf4j</artifactId>
+            <version>2.14.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-binding-webservice</artifactId>
+            <version>3.9.1-884</version>
+            <scope>test</scope>
+        </dependency>
+<!--        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-service-testing-auditlog</artifactId>
+            <version>3.9.1-884</version>
+            <scope>test</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>com.github.cafaudit</groupId>
+            <artifactId>caf-audit-service-client</artifactId>
+            <version>3.9.1-884</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stefanbirkner</groupId>
+            <artifactId>system-lambda</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>2.1.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>2.34</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.34</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>2.34</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.30</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.30</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.4.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--Compile test sources.-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--Copy test resources.-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-test-properties</id>
+                        <goals>
+                            <goal>testResources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--Run integration tests.-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <parallel>classesAndMethods</parallel>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <systemPropertyVariables>
+                        <docker.host.address>${docker.host.address}</docker.host.address>
+                        <webservice.adminport>${webservice.adminport}</webservice.adminport>
+                        <elasticsearch.http.port>${elasticsearch.http.port}</elasticsearch.http.port>
+                        <webservice.healthcheckport>${webservice.healthcheckport}</webservice.healthcheckport>
+                    </systemPropertyVariables>
+                    <environmentVariables>
+                        <CAF_ELASTIC_PROTOCOL>http</CAF_ELASTIC_PROTOCOL>
+                        <CAF_ELASTIC_HOST_VALUES>${docker.host.address}</CAF_ELASTIC_HOST_VALUES>
+                        <CAF_ELASTIC_PORT_VALUE>${elasticsearch.http.port}</CAF_ELASTIC_PORT_VALUE>
+                        <webserviceurl>http://${docker.host.address}:${webservice.adminport}/${webserviceWarName}/v1</webserviceurl>
+                        <webserviceurlhttps>https://${docker.host.address}:${webservice.https.adminport}/${webserviceWarName}/v1</webserviceurlhttps>
+                    </environmentVariables>
+                    <includes>
+                        <include>**/*IT.java</include>
+                    </includes>
+                    <!--<debugForkedProcess>true</debugForkedProcess>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.37.0</version>
+                <executions>
+                    <execution>
+                        <id>docker-build</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>docker-push</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>start</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imagePullPolicy>IfNotPresent</imagePullPolicy>
+                    <verbose>true</verbose>
+                    <showLogs>true</showLogs>
+                    <logDate>default</logDate>
+                    <watchInterval>500</watchInterval>
+                    <containerNamePattern>%a-%t</containerNamePattern>
+                    <images>
+                        <!--Build image for test keystore-->
+                        <image>
+                            <alias>keystore</alias>
+                            <name>${project.artifactId}-keystore:${project.version}</name>
+                            <build>
+                                <from>${dockerHubPublic}/cafapi/opensuse-jre11:3</from>
+                                <runCmds>
+                                    <runCmd>mkdir /test-keystore</runCmd>
+                                    <runCmd>keytool -genkey -noprompt -alias tomcat -dname "CN=myname, OU=myorganisational.unit, O=myorganisation, L=mycity, S=myprovince, C=GB" -keystore /test-keystore/tomcat.keystore -storepass changeit -keypass changeit -keyalg RSA</runCmd>
+                                    <runCmd>keytool -importkeystore -srckeystore /test-keystore/tomcat.keystore -srcstorepass changeit -destkeystore /test-keystore/tomcat.keystore -deststoretype pkcs12</runCmd>
+                                </runCmds>
+                                <volumes>
+                                    <volume>/test-keystore</volume>
+                                </volumes>
+                            </build>
+                        </image>
+                        <!-- Audit Service -->
+                        <image>
+                            <alias>audit-service</alias>
+                            <name>${targetDockerRegistryPath}/audit-service:${project.version}</name>
+                            <build>
+                                <dockerFileDir>.</dockerFileDir>
+                            </build>
+                            <run>
+                                <ports>
+                                    <port>${webservice.adminport}:8080</port>
+                                    <port>${webservice.https.adminport}:8443</port>
+                                    <port>${webservice.healthcheckport}:8081</port>
+                                </ports>
+                                <env>
+                                    <CAF_ELASTIC_PROTOCOL>http</CAF_ELASTIC_PROTOCOL>
+                                    <CAF_ELASTIC_HOST_VALUES>elasticsearch</CAF_ELASTIC_HOST_VALUES>
+                                    <CAF_ELASTIC_PORT_VALUE>9200</CAF_ELASTIC_PORT_VALUE>
+                                    <CAF_LOG_LEVEL>INFO</CAF_LOG_LEVEL>
+                                    <DOCKER_HOST>http://172.17.0.1:2375</DOCKER_HOST>
+                                    <SSL_TOMCAT_CA_CERT_LOCATION>/test-keystore/tomcat.keystore</SSL_TOMCAT_CA_CERT_LOCATION>
+                                </env>
+                                <volumes>
+                                    <from>
+                                        <image>keystore</image>
+                                    </from>
+                                </volumes>
+                                <links>
+                                    <link>elasticsearch</link>
+                                </links>
+                                <log>
+                                    <enabled>true</enabled>
+                                </log>
+                                <wait>
+                                    <http>
+                                        <url>
+                                            http://${docker.host.address}:${webservice.healthcheckport}/healthcheck
+                                        </url>
+                                    </http>
+                                    <time>120000</time>
+                                    <shutdown>500</shutdown>
+                                </wait>
+                            </run>
+                        </image>
+                        <!-- elasticsearch image for running integration tests-->
+                        <image>
+                            <alias>elasticsearch</alias>
+                            <name>docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2</name>
+                            <run>
+                                <hostname>elasticsearch</hostname>
+                                <namingStrategy>alias</namingStrategy>
+                                <ports>
+                                    <port>${elasticsearch.http.port}:9200</port>
+                                </ports>
+                                <env>
+                                    <discovery.type>single-node</discovery.type>
+                                </env>
+                                <wait>
+                                    <log>Elasticsearch startup complete</log>
+                                    <http>
+                                        <url>http://${docker.host.address}:${elasticsearch.http.port}</url>
+                                    </http>
+                                    <time>300000</time>
+                                    <shutdown>500</shutdown>
+                                </wait>
+                                <log>
+                                    <enabled>true</enabled>
+                                </log>
+                            </run>
+                        </image>
+
+                    </images>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <scm>
+        <connection>scm:git:https://github.houston.softwaregrp.net/Verity/darwin-audit-service.git</connection>
+        <developerConnection>scm:git:https://github.houston.softwaregrp.net/Verity/darwin-audit-service.git</developerConnection>
+        <url>https://github.houston.softwaregrp.net/Verity/darwin-audit-service</url>
+    </scm>
+
+    <profiles>
+        <profile>
+            <id>use-default-fixed-ports</id>
+            <properties>
+                <webservice.adminport>25080</webservice.adminport>
+                <webservice.https.adminport>25443</webservice.https.adminport>
+                <webservice.healthcheckport>25081</webservice.healthcheckport>
+                <elasticsearch.http.port>9200</elasticsearch.http.port>
+            </properties>
+        </profile>
+    </profiles>
+
+</project>
